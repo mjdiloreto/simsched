@@ -666,3 +666,7 @@ Breaking it down step-wise, we get the following procedures:
      │        │
  3:00└────────┘
 #+end_example
+
+Depending on the font used (GitHub's is pretty ugly), the schedule will look more or less like this:
+
+[[./screenshot.png]]
