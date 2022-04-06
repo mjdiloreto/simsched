@@ -6,10 +6,10 @@
 
 To better adhere to the advice in /Deep Work/, create a simple system to approximate every minute of my schedule.
 
-* TODO
-** Configure emacs 'group' for simsched customs
-** Remove dependencies on load!
-** Retain only required dependencies from utils files
+* Project TODOs
+- Configure emacs 'group' for simsched
+- Remove dependencies on =load!=
+- Retain only required dependencies from utils files
 
 * Rationale
 Simsched is a (sim)ple (sched)uling emacs-lisp program designed to conform to the scheduling philosophy presented by Cal Newport in his book "Deep Work".
@@ -48,7 +48,7 @@ even if these decisions are reworked again and again as the day unfolds.
 #+end_quote
 
 I've emphasized the key pieces of procedure and philosophy which underlie this scheduling program.
-I find this way of scheduling to be much more effective than some other, more fine-grained approaches, characteristic of more complex and flexible software (such as the agenda built-in to org mode).
+I find this way of scheduling to be much more effective than some other, more fine-grained approaches, characteristic of more complex and flexible software (such as the agenda shipped with org-mode).
 I want to simply be aware of the macro-level objectives I have throughout the day, and track their evolution.
 I find that the more detail I put into a schedule, the more time I spend curating it, and the less it actually reflects my daily activities.
 The same philosophy is echoed in David Allen's /Getting Things Done/.
