@@ -153,11 +153,11 @@ try running =(simsched/parse-schedule)= on the example below
 ** Pretty-printing
 To pretty-print each time range entry, we can use [[https://github.com/rolandwalker/unicode-enbox][unicode-enbox]] (and its dependencies)
 #+begin_src emacs-lisp
-(load! "./unicode-enbox.el")
-(load! "./ucs-utils.el")
-(load! "./string-utils.el")
-(load! "./list-utils.el")
-(load! "./obarray-fns.el")
+(load! "./deps/unicode-enbox.el")
+(load! "./deps/ucs-utils.el")
+(load! "./deps/string-utils.el")
+(load! "./deps/list-utils.el")
+(load! "./deps/obarray-fns.el")
 #+end_src
 
 Try running the below code to see the effect
@@ -628,45 +628,58 @@ Breaking it down step-wise, we get the following procedures:
 
 #+begin_example
 8-9 Emacs lisp coding
-8:30-12 One more thing
+8:30-12 A conflict came up that I added later
 9-10:30 Slack
-11:00-12:30 probably should code
-12-1:30 I should see if this works
-1-3 Maybe it does maybe not
+11:00-12:30 Misc. task block
+12-1:30 Another conflict came up
+1-3 I planned on doing this already
 #+end_example
 
 #+begin_example
- 8:00┌────────┐
-     │Emacs   │
- 8:30│lisp    │┌──────┐
-     │coding  ││      │
- 9:00├────────┤│      │
-     │        ││      │
- 9:30│        ││      │
-     │Slack   ││      │
-10:00│        ││One   │
-     │        ││more  │
-10:30└────────┘│thing │
-               │      │
-11:00┌────────┐│      │
-     │        ││      │
-11:30│probably││      │
-     │should  ││      │
-12:00│code    │├──────┤
-     │        ││I     │
-12:30└────────┘│should│
-               │see   │
- 1:00┌────────┐│if    │
-     │        ││this  │
- 1:30│Maybe   ││works │
-     │it      │└──────┘
- 2:00│does    │
-     │maybe   │
- 2:30│not     │
-     │        │
- 3:00└────────┘
+ 8:00┌───────┐
+     │Emacs  │
+ 8:30│lisp   │┌────────┐
+     │coding ││        │
+ 9:00├───────┤│        │
+     │       ││A       │
+ 9:30│       ││conflict│
+     │Slack  ││came    │
+10:00│       ││up      │
+     │       ││that    │
+10:30└───────┘│I       │
+              │added   │
+11:00┌───────┐│later   │
+     │       ││        │
+11:30│Misc.  ││        │
+     │task   ││        │
+12:00│block  │├────────┤
+     │       ││Another │
+12:30└───────┘│conflict│
+              │came    │
+ 1:00┌───────┐│up      │
+     │I      ││        │
+ 1:30│planned│└────────┘
+     │on     │
+ 2:00│doing  │
+     │this   │
+ 2:30│already│
+     │       │
+ 3:00└───────┘
 #+end_example
 
 Depending on the font used (GitHub's is pretty ugly), the schedule will look more or less like this:
 
 [[./screenshot.png]]
+
+As you can see, I like to place conflicts immediately after the events they conflict with instead of placing them at the end of the schedule. This just helps keep things more or less chronological, but won't affect the output of the program.
+
+#+begin_example
+8-9 Emacs lisp coding
+9-10:30 Slack
+11:00-12:30 Misc. task block
+1-3 I planned on doing this already
+8:30-12 A conflict came up that I added later
+12-1:30 Another conflict came up
+#+end_example
+
+results in the exact same rendered schedule as above.

@@ -46,11 +46,11 @@
           (setq current-range (simsched/parse-time-range-entry)))
         (append ranges-beginning-to-here (reverse ranges-here-to-end))))))
 
-(load! "./unicode-enbox.el")
-(load! "./ucs-utils.el")
-(load! "./string-utils.el")
-(load! "./list-utils.el")
-(load! "./obarray-fns.el")
+(load! "./deps/unicode-enbox.el")
+(load! "./deps/ucs-utils.el")
+(load! "./deps/string-utils.el")
+(load! "./deps/list-utils.el")
+(load! "./deps/obarray-fns.el")
 
 ;; Assign synonymous times (1 and 1:00) with the same values, 1 representing A.M., the other P.M.
 (setq simsched/normalize-time
