@@ -7,8 +7,6 @@
 To better adhere to the advice in /Deep Work/, create a simple system to approximate every minute of my schedule.
 
 * Project TODOs
-- Configure emacs 'group' for simsched
-- Remove dependencies on =load!=
 - Retain only required dependencies from utils files
 
 * Rationale
@@ -56,8 +54,17 @@ The same philosophy is echoed in David Allen's /Getting Things Done/.
 The rest of this document is the entirety of the /simsched/ program, written in a [[http://literateprogramming.com/][literate]] style.
 
 * Using Simsched
-To use this program, you can simply download the included =simsched.el= file from this repository and =load= it into your emacs.
-Alternatively, if you would like to modify the software, you can download this org file and tangle (with =org-babel-tangle=) it yourself.
+To use this program, you can clone this repository somewhere on your emacs =load-path= and =load= it into your emacs config.
+
+For example, if your config file is =~/.emacs=, and you have the path =~/.emacs.d/packages= on your =load-path=:
+
+1. Clone this repository into =~/.emacs.d/packages/simsched=
+2. load simsched in =.emacs=
+#+begin_example
+(load "./.emacs.d/packages/simsched/simsched.el")
+#+end_example
+
+If you would like to modify the software, you can edit this org file and tangle (with =org-babel-tangle=) it yourself.
 
 * Format
 Entries will be a newline separated list of entries, where an Entry is defined as
@@ -153,11 +160,9 @@ try running =(simsched/parse-schedule)= on the example below
 ** Pretty-printing
 To pretty-print each time range entry, we can use [[https://github.com/rolandwalker/unicode-enbox][unicode-enbox]] (and its dependencies)
 #+begin_src emacs-lisp
-(load! "./deps/unicode-enbox.el")
-(load! "./deps/ucs-utils.el")
-(load! "./deps/string-utils.el")
-(load! "./deps/list-utils.el")
-(load! "./deps/obarray-fns.el")
+(require 'cl) ; for setf, reduce
+
+(autoload 'unicode-enbox "unicode-enbox" "Draw boxes around lines using unicode box-drawing characters")
 #+end_src
 
 Try running the below code to see the effect
@@ -327,8 +332,18 @@ So instead, we will define our schedule to have a maximum of 12 hours, starting 
 This way, we will disambiguate the case above - it will conflict with the first entry.
 
 #+begin_src emacs-lisp
+
+;;Begin by defining a group for all our customizations
+(defgroup simsched nil
+  "Surround a string with box-drawing characters."
+  :version "0.0.1"
+  :link '(url-link :tag "GitHub" "http://github.com/mjdiloreto/simsched")
+  :prefix "simsched/"
+  :group 'extensions)
+
 (defcustom simsched/start-time "7:00"
   "First hour of the 12-hour schedule"
+  :group 'simsched
   :type 'string
   :options '("1:00" "2:00" "3:00" "4:00" "5:00" "6:00" "7:00" "8:00" "9:00" "10:00" "11:00" "12:00"))
 #+end_src
@@ -404,11 +419,12 @@ We will allow the user to customize the buffer name and function used to switch 
 #+begin_src emacs-lisp
 (defcustom simsched/schedule-buffer-name "*simsched schedule*"
   "The default name of the buffer where the rendered schedule is displayed"
+  :group 'simsched
   :type 'string)
 
-(defcustom simsched/switch-buffer-function
-  #'pop-to-buffer
+(defcustom simsched/switch-buffer-function #'pop-to-buffer
   "Function called to display the schedule buffer."
+  :group 'simsched
   :type 'function)
 
 (defun simsched/get-create-schedule-buffer ()

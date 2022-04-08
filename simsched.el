@@ -46,11 +46,9 @@
           (setq current-range (simsched/parse-time-range-entry)))
         (append ranges-beginning-to-here (reverse ranges-here-to-end))))))
 
-(load! "./deps/unicode-enbox.el")
-(load! "./deps/ucs-utils.el")
-(load! "./deps/string-utils.el")
-(load! "./deps/list-utils.el")
-(load! "./deps/obarray-fns.el")
+(require 'cl) ; for setf, reduce
+
+(autoload 'unicode-enbox "unicode-enbox" "Draw boxes around lines using unicode box-drawing characters")
 
 ;; Assign synonymous times (1 and 1:00) with the same values, 1 representing A.M., the other P.M.
 (setq simsched/normalize-time
@@ -180,8 +178,17 @@
              (third time-range-entry)))
           schedule))
 
+;;Begin by defining a group for all our customizations
+(defgroup simsched nil
+  "Surround a string with box-drawing characters."
+  :version "0.0.1"
+  :link '(url-link :tag "GitHub" "http://github.com/mjdiloreto/simsched")
+  :prefix "simsched/"
+  :group 'extensions)
+
 (defcustom simsched/start-time "7:00"
   "First hour of the 12-hour schedule"
+  :group 'simsched
   :type 'string
   :options '("1:00" "2:00" "3:00" "4:00" "5:00" "6:00" "7:00" "8:00" "9:00" "10:00" "11:00" "12:00"))
 
@@ -236,11 +243,12 @@
 
 (defcustom simsched/schedule-buffer-name "*simsched schedule*"
   "The default name of the buffer where the rendered schedule is displayed"
+  :group 'simsched
   :type 'string)
 
-(defcustom simsched/switch-buffer-function
-  #'pop-to-buffer
+(defcustom simsched/switch-buffer-function #'pop-to-buffer
   "Function called to display the schedule buffer."
+  :group 'simsched
   :type 'function)
 
 (defun simsched/get-create-schedule-buffer ()
